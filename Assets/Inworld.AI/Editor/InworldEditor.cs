@@ -66,12 +66,19 @@ namespace Inworld.Editor
         static internal void _SaveCurrentSettings()
         {
             _SaveWSData(InworldAI.Game.currentWorkspace);
-            foreach (string brain in InworldAI.Game.currentScene.characters.Where(brain => InworldAI.User.Characters.ContainsKey(brain)))
+            if(InworldAI.Game.currentKey != null)
+                _SaveKey(InworldAI.Game.currentKey);
+            
+            if (InworldAI.Game.currentScene != null)
             {
-                _SaveCharData(InworldAI.User.Characters[brain]);
+                foreach (string brain in InworldAI.Game.currentScene.characters.Where(brain =>
+                             InworldAI.User.Characters.ContainsKey(brain)))
+                {
+                    _SaveCharData(InworldAI.User.Characters[brain]);
+                }
+
+                _SaveIwSceneData(InworldAI.Game.currentScene);
             }
-            _SaveKey(InworldAI.Game.currentKey);
-            _SaveIwSceneData(InworldAI.Game.currentScene);
         }
         static void _SaveWSData(InworldWorkspaceData wsToSave)
         {
